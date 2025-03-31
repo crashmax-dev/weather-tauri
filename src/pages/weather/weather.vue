@@ -1,23 +1,30 @@
 <template>
-  <h1 v-if="greetMsg">
-    {{ greetMsg }}
+  <h1 v-if="weatherResponse">
+    {{ weatherResponse.name }}
+    <sup>{{ weatherResponse.main.temp }} °C</sup>
   </h1>
-  <input v-model="name" autofocus>
-  <button type="button" @click="greet">
-    Greet
+  <input v-model="city" autofocus>
+  <button type="button" @click="fetchWeather">
+    Get weather
   </button>
 </template>
 
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api/core'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
-const greetMsg = ref('')
-const name = ref('')
+const city = ref('Irkutsk')
+const weatherResponse = ref()
 
-async function greet() {
-  if (!name.value) return
+async function fetchWeather() {
+  if (!city.value) return
   // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke('greet', { name: name.value })
+  weatherResponse.value = await invoke('fetch_weather', {
+    city: city.value,
+    lang: 'ru',
+    apiKey: '4b7f29a8e15af3ec8d463f83ce5dd419',
+  })
 }
+
+onMounted(fetchWeather)
 </script>

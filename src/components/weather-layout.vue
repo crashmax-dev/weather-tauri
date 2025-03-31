@@ -25,6 +25,7 @@ import { RouterView } from 'vue-router'
     text-align: center;
     gap: 16px;
     height: 100%;
+    overflow: auto;
   }
 }
 </style>
