@@ -1,18 +1,31 @@
 import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
+import { FileSystemIconLoader } from 'unplugin-icons/loaders'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 const host = process.env.TAURI_DEV_HOST
 
-// https://vitejs.dev/config/
-export default defineConfig(async () => ({
-  plugins: [vue()],
-
-  // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
-  //
-  // 1. prevent vite from obscuring rust errors
+export default defineConfig({
+  plugins: [
+    vue(),
+    Icons({
+      compiler: 'vue3',
+      autoInstall: false,
+      customCollections: {
+        custom: FileSystemIconLoader('./src/assets/icons'),
+      },
+    }),
+    Components({
+      dts: false,
+      resolvers: [
+        IconsResolver({ customCollections: ['custom'] }),
+      ],
+    }),
+  ],
   clearScreen: false,
-  // 2. tauri expects a fixed port, fail if that port is not available
   server: {
     port: 1420,
     strictPort: true,
@@ -25,7 +38,6 @@ export default defineConfig(async () => ({
         }
       : undefined,
     watch: {
-      // 3. tell vite to ignore watching `src-tauri`
       ignored: ['**/src-tauri/**'],
     },
   },
@@ -34,4 +46,4 @@ export default defineConfig(async () => ({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-}))
+})
