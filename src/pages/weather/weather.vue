@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { invoke } from '@tauri-apps/api/core'
+import { listen } from '@tauri-apps/api/event'
 import { onMounted, ref } from 'vue'
 
 const city = ref('Irkutsk')
@@ -25,6 +26,11 @@ async function fetchWeather() {
     apiKey: '4b7f29a8e15af3ec8d463f83ce5dd419',
   })
 }
+
+listen('weather_update', ({ payload }) => {
+  console.log(payload)
+  weatherResponse.value = payload
+})
 
 onMounted(fetchWeather)
 </script>

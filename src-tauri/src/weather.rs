@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use ureq;
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct WeatherResponse {
     pub main: Main,
     pub weather: Vec<Weather>,
@@ -10,24 +10,24 @@ pub struct WeatherResponse {
     pub wind: Wind
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Wind {
     speed: f64
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Clouds {
     all: u8
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Main {
     pub temp: f64,
     pub humidity: u8,
     pub pressure: u32,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Weather {
     pub description: String,
     pub icon: String
