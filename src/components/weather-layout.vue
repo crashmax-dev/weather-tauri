@@ -18,14 +18,16 @@ import { RouterView } from 'vue-router'
   height: 100vh;
 
   &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 16px;
     height: 100%;
-    overflow: auto;
+    padding: 16px;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    // text-align: center;
+    // gap: 16px;
+    // height: 100%;
+    // overflow: auto;
   }
 }
 </style>

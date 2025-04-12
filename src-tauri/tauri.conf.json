@@ -12,8 +12,8 @@
   "app": {
     "windows": [{
       "title": "weather-tauri",
-      "width": 500,
-      "height": 400,
+      "width": 416,
+      "height": 333,
       "transparent": true,
       "alwaysOnTop": true,
       "center": true,

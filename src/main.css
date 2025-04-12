@@ -3,13 +3,16 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #696969;
+  --secondary-color: #A3A3A3;
+}
+
 body {
-  color: #0f0f0f;
+  overflow: hidden;
+  color: var(--primary-color);
   background-color: rgba(227, 227, 227, 0.95);
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

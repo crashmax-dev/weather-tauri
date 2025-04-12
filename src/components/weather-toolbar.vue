@@ -2,27 +2,17 @@
   <div class="toolbar" data-tauri-drag-region>
     <div class="toolbar-tabs">
       <button
+        v-for="tab of TOOLBAR_TABS"
+        :key="tab.name"
         class="toolbar-button"
-        :class="{ active: activeRoute === RouteName.Weather }"
-        @click="openRoute(RouteName.Weather)"
+        :class="{ active: activeRoute === tab.name }"
+        @click="openRoute(tab.name)"
       >
-        <WeatherIcon class="toolbar-tabs__icon" />
-      </button>
-
-      <button
-        class="toolbar-button"
-        :class="{ active: activeRoute === RouteName.Settings }"
-        @click="openRoute(RouteName.Settings)"
-      >
-        <SettingsIcon class="toolbar-tabs__icon" />
-      </button>
-
-      <button
-        class="toolbar-button"
-        :class="{ active: activeRoute === RouteName.About }"
-        @click="openRoute(RouteName.About)"
-      >
-        <QuestionMarkIcon class="toolbar-tabs__icon" />
+        <component
+          :is="tab.icon"
+          class="toolbar-tabs__icon"
+          :class="{ active: activeRoute === tab.name }"
+        />
       </button>
     </div>
 
@@ -53,6 +43,12 @@ const router = useRouter()
 const appWindow = getCurrentWindow()
 const activeRoute = computed(() => router.currentRoute.value.name)
 
+const TOOLBAR_TABS = [
+  { name: RouteName.Weather, icon: WeatherIcon },
+  { name: RouteName.Settings, icon: SettingsIcon },
+  { name: RouteName.About, icon: QuestionMarkIcon },
+]
+
 function minimize() {
   appWindow.minimize()
 }
@@ -71,6 +67,7 @@ function openRoute(name: RouteNameType) {
   display: flex;
   align-items: center;
   height: 26px;
+  flex-shrink: 0;
   background: #F0F0F0;
   -webkit-app-region: drag;
 
@@ -81,7 +78,11 @@ function openRoute(name: RouteNameType) {
     &__icon {
       height: 14px;
       width: 14px;
-      color: #696969;
+      color: var(--secondary-color);
+
+      &.active {
+        color: var(--primary-color);
+      }
     }
   }
 
@@ -93,7 +94,7 @@ function openRoute(name: RouteNameType) {
     &__icon {
       height: 18px;
       width: 18px;
-      color: #696969;
+      color: var(--secondary-color);
     }
   }
 
@@ -104,7 +105,6 @@ function openRoute(name: RouteNameType) {
     width: 33px;
     background: none;
     border: none;
-    color: white;
     font-size: 18px;
     cursor: pointer;
     -webkit-app-region: no-drag;

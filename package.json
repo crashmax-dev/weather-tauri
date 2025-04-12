@@ -12,8 +12,11 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@pinia/colada": "0.14.2",
     "@tauri-apps/api": "2.4.0",
     "@tauri-apps/plugin-opener": "2.2.6",
+    "@zero-dependency/utils": "1.7.7",
+    "pinia": "3.0.2",
     "vue": "3.5.13",
     "vue-router": "4.5.0"
   },
