@@ -6,6 +6,7 @@ mod config;
 mod weather;
 mod ipwhois;
 
+#[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   app::AppBuidler::build().await?.run();
   Ok(())
