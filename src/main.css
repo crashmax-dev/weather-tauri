@@ -6,6 +6,8 @@
 :root {
   --primary-color: #696969;
   --secondary-color: #A3A3A3;
+  --orange-color: #EB6E4B;
+  --light-color: #F0F0F0;
 }
 
 body {
@@ -18,4 +20,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+input {
+  color: inherit;
+  background: none;
+
+  &::selection {
+    color: var(--light-color);
+    background-color: var(--orange-color);
+  }
 }

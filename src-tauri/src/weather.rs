@@ -7,17 +7,17 @@ pub struct WeatherResponse {
     pub weather: Vec<Weather>,
     pub name: String,
     pub clouds: Clouds,
-    pub wind: Wind
+    pub wind: Wind,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Wind {
-    speed: f64
+    speed: f64,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Clouds {
-    all: u8
+    all: u8,
 }
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
@@ -30,11 +30,15 @@ pub struct Main {
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct Weather {
     pub description: String,
-    pub icon: String
+    pub icon: String,
 }
 
 #[tauri::command]
-pub fn fetch_weather(city: String, lang: String, api_key: String) -> Result<WeatherResponse, String> {
+pub fn fetch_weather(
+    city: String,
+    lang: String,
+    api_key: String,
+) -> Result<WeatherResponse, String> {
     let url = format!(
         "https://api.openweathermap.org/data/2.5/weather?q={}&lang={}&appid={}&units=metric",
         city, lang, api_key

@@ -1,19 +1,22 @@
 <template>
   <div v-if="weather.response" class="weather">
-    <h1 class="weather-title">
-      {{ weather.response.name }}
-    </h1>
+    <form @submit.prevent="blurInput">
+      <input
+        ref="inputRef"
+        v-model="weather.location"
+        class="weather-input"
+      >
+    </form>
     <h2 class="weather-subtitle">
       Обновлено в 19:29
     </h2>
 
     <div class="weather-container">
-      <div>
-        <img
-          :src="`http://openweathermap.org/img/wn/${weather.response.weather[0].icon}@4x.png`"
-          alt="Weather icon"
-          :style="{ height: '150px', width: '150px' }"
-        >
+      <div :style="{ position: 'relative' }">
+        <component
+          :is="WEATHER_ICONS[weather.response.weather[0].icon]"
+          class="weather-icon"
+        />
         <p class="weather-clouds">
           {{ weather.response.weather[0].description }}
         </p>
@@ -21,7 +24,7 @@
 
       <div>
         <p class="weather-temp">
-          {{ weather.response.main.temp }}°C
+          {{ formatNumber(weather.response.main.temp) }}°C
         </p>
       </div>
     </div>
@@ -53,9 +56,37 @@
 </template>
 
 <script setup lang="ts">
+import { formatNumber } from '@/utils/format-number'
+import { useMagicKeys } from '@vueuse/core'
+import { useTemplateRef, watch } from 'vue'
 import { useWeather } from './composables/use-weather'
+import { WEATHER_ICONS } from './constants/weather-icons'
 
 const weather = useWeather()
+
+const { escape } = useMagicKeys()
+const inputRef = useTemplateRef('inputRef')
+
+watch(escape, () => {
+  if (!escape.value) return
+  if (document.activeElement === inputRef.value) {
+    blurInput()
+  } else {
+    focusInput()
+  }
+})
+
+function blurInput() {
+  inputRef.value?.blur()
+  weather.fetchWeather()
+}
+
+function focusInput() {
+  inputRef.value?.focus()
+  inputRef.value?.select()
+}
+
+// fetch('https://ipwhois.app/json/?objects=success,city&lang=ru')
 </script>
 
 <style scoped lang="scss">
@@ -64,6 +95,21 @@ const weather = useWeather()
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  &-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    font-size: 38px;
+    line-height: 38px;
+    text-align: center;
+  }
+
+  &-icon {
+    height: 120px;
+    width: 120px;
+  }
 
   &-title {
     font-size: 38px;
@@ -79,7 +125,7 @@ const weather = useWeather()
 
   &-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
   }
 
@@ -88,6 +134,9 @@ const weather = useWeather()
     text-align: center;
     font-size: 11px;
     font-weight: 600;
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
   }
 
   &-temp {

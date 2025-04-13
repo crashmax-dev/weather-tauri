@@ -16,12 +16,15 @@ export default defineConfig({
       autoInstall: false,
       customCollections: {
         custom: FileSystemIconLoader('./src/assets/icons'),
+        weather: FileSystemIconLoader('./src/assets/weather'),
       },
     }),
     Components({
       dts: false,
       resolvers: [
-        IconsResolver({ customCollections: ['custom'] }),
+        IconsResolver({
+          customCollections: ['custom', 'weather'],
+        }),
       ],
     }),
   ],

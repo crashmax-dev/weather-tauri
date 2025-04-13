@@ -35,12 +35,18 @@ export const useWeather = defineStore('weather/use-weather', () => {
     refetch: fetchWeather,
   } = useQuery({
     key: [WEATHER_QUERY_KEY],
-    query: () => {
-      return invoke<WeatherData>('fetch_weather', {
+    query: async () => {
+      const response = await invoke<WeatherData>('fetch_weather', {
         city: location.value,
         lang: 'ru',
         apiKey: '4b7f29a8e15af3ec8d463f83ce5dd419',
       })
+
+      if (response.name) {
+        location.value = response.name
+      }
+
+      return response
     },
   })
 
