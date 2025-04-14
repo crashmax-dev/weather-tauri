@@ -3,8 +3,8 @@ use ureq;
 
 #[derive(Deserialize, Serialize, Debug, Clone)]
 pub struct IpWhoisResponse {
-  pub success: bool,
-  pub city: String,
+    pub success: bool,
+    pub city: String,
 }
 
 #[tauri::command]

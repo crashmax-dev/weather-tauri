@@ -3,11 +3,11 @@
 
 mod app;
 mod config;
-mod weather;
 mod ipwhois;
+mod weather;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-  app::AppBuidler::build().await?.run();
-  Ok(())
+    app::AppBuidler::build().await?.run();
+    Ok(())
 }
