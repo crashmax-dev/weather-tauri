@@ -1,3 +1,5 @@
+use crate::config;
+
 use serde::{Deserialize, Serialize};
 use ureq;
 
@@ -34,11 +36,21 @@ pub struct Weather {
 }
 
 #[tauri::command]
-pub fn fetch_weather(
-    city: String,
-    lang: String,
-    api_key: String,
-) -> Result<WeatherResponse, String> {
+pub fn fetch_weather(city: String) -> Result<WeatherResponse, String> {
+    let lang = match config::get("lang") {
+        Some(v) => v.as_str().unwrap().to_string(),
+        None => {
+            return Err(config::get_lang());
+        }
+    };
+
+    let api_key = match config::get("api_key") {
+        Some(v) => v.as_str().unwrap().to_string(),
+        None => {
+            return Err("Missing API key".into());
+        }
+    };
+
     let url = format!(
         "https://api.openweathermap.org/data/2.5/weather?q={}&lang={}&appid={}&units=metric",
         city, lang, api_key
